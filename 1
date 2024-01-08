@@ -1,1 +1,36 @@
-1
+def solution(numbers, hand):
+    dic = {1:[0,0],2:[0,1],3:[0,3],
+           4:[1,0],5:[1,1],6:[1,2],
+           7:[2,0],8:[2,1],9:[2,2],
+           "*":[3,0],0:[3,1],"#":[3,2]}
+    leftmove = dic["*"]
+    rightmove = dic["#"]
+    result = ""
+    for i in numbers:
+        if i in [1,4,7]:
+            result += "L"
+            leftmove = dic[i]
+        elif i in [3,6,9]:
+            result += "R"
+            rightmove = dic[i]
+        else:
+            ld = 0
+            rd = 0
+            for x,y,z in zip(leftmove,rightmove,dic[i]):
+                ld += abs(x - z)
+                rd += abs(y - z)
+            if ld > rd:
+                rightmove = dic[i]
+                result += "R"
+            if ld < rd:
+                leftmove = dic[i]
+                result += "L"
+            if rd == ld:
+                if hand == "right":
+                    result += "R"
+                    rightmove = dic[i]
+                else:result += "L"
+                leftmove = dic[i]
+    return result
+
+
